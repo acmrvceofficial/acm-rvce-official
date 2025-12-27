@@ -137,7 +137,6 @@ export default function MultiStepContactForm() {
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
         className="relative overflow-hidden bg-gradient-to-br from-green-50 to-emerald-50 dark:from-green-950/20 dark:to-emerald-950/20 p-6 sm:p-8 md:p-10 rounded-xl border border-green-200 dark:border-green-800/30 shadow-lg">
-      >
         <div className="absolute top-0 right-0 w-64 h-64 bg-green-500/10 rounded-full blur-3xl" />
         <div className="relative flex flex-col items-center text-center space-y-4">
           <motion.div
@@ -191,7 +190,6 @@ export default function MultiStepContactForm() {
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
         className="bg-gradient-to-br from-red-50 to-rose-50 dark:from-red-950/20 dark:to-rose-950/20 p-6 sm:p-8 md:p-10 rounded-xl border border-red-200 dark:border-red-800/30 shadow-lg">
-      >
         <div className="flex flex-col items-center text-center space-y-4">
           <div className="w-20 h-20 rounded-full bg-gradient-to-br from-red-500 to-rose-600 flex items-center justify-center shadow-lg">
             <AlertCircle className="w-12 h-12 text-white" />
