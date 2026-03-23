@@ -23,7 +23,7 @@ const ContactFonts = () => (
 
 export default function ContactPage() {
   return (
-    <main className="relative min-h-screen bg-white dark:bg-[#050505] font-contact overflow-x-hidden selection:bg-blue-500/30 selection:text-blue-500">
+    <main className="relative min-h-screen bg-white dark:bg-[#050505] font-contact overflow-x-hidden selection:bg-neutral-900/30 dark:selection:bg-white/30 selection:text-neutral-900 dark:selection:text-white">
       <ContactFonts />
 
       {/* Global Background Grid (Consistent with Footer) */}
@@ -44,12 +44,12 @@ export default function ContactPage() {
           
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-24 items-start">
             
-            {/* Left Column: Form (Larger focus) */}
+            {/* Left Column: Form */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }} // smooth ease
+              transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
               className="lg:col-span-7"
             >
                <div className="mb-12">
@@ -63,7 +63,28 @@ export default function ContactPage() {
               <MultiStepContactForm />
             </motion.div>
 
-            </div>
+            {/* Right Column: Contact Info & Map */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: 0.1 }}
+              className="lg:col-span-5 flex flex-col gap-12"
+            >
+              <ImprovedContactInfo 
+                items={contactConfig.contactInfo.items}
+                socialLinks={contactConfig.socialLinks}
+              />
+              
+              {contactConfig.mapEmbed && (
+                <div className="h-[300px] w-full rounded-2xl overflow-hidden border border-neutral-200 dark:border-white/10">
+                  <MapEmbed 
+                    embedUrl={contactConfig.mapEmbed}
+                    className="w-full h-full rounded-none border-none" 
+                  />
+                </div>
+              )}
+            </motion.div>
 
           </div>
         </div>

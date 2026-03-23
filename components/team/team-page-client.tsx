@@ -18,7 +18,7 @@ export const TeamPageClient: React.FC<TeamPageClientProps> = ({ teamMembers, yea
   const [activeTab, setActiveTab] = useState<"core" | "junior">("core");
   const { theme } = useTheme();
   
-  const availableYears = years.length > 0 ? years : ["2025"];
+  const availableYears = React.useMemo(() => (years.length > 0 ? years : ["2025"]), [years]);
   
   const teamData: TeamData = React.useMemo(() => {
     console.log('TeamPageClient - teamMembers:', teamMembers);

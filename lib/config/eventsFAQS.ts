@@ -55,7 +55,7 @@ export const faqs: FAQ[] = [
   {
     question: "How can I become a member of ACM RVCE?",
     answer:
-      "You can become a member by filling out the membership form on our website. Membership is open to all RVCE students interested in computing and technology.",
+      "You can become a member by filling out the membership form on our website. Membership is open to all first year and second year RVCE students during the recruitment drive.",
   },
   {
     question: "What events does ACM RVCE organize?",

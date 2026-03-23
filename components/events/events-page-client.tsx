@@ -25,7 +25,7 @@ export function EventPageClient({ events }: EventPageClientProps) {
   const [searchTerm, setSearchTerm] = React.useState('')
   const [selectedCategory, setSelectedCategory] = React.useState<string | null>(null)
 
-  const allEvents = events || []
+  const allEvents = React.useMemo(() => events || [], [events])
   const allCategories = getAllCategories(allEvents)
 
   const filteredEvents = React.useMemo(() => {

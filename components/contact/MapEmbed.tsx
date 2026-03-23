@@ -15,12 +15,9 @@ const MapEmbed: React.FC<MapEmbedProps> = ({
   className,
 }) => {
   return (
-    <div className={cn("relative w-full overflow-hidden group", className)}>
-        {/* Tech Frame overlay */}
-        <div className="absolute inset-0 z-10 pointer-events-none rounded-2xl border border-neutral-200 dark:border-white/10" />
-        
+    <div className={cn("relative w-full h-full overflow-hidden group", className)}>
         {/* Map Container */}
-        <div className="w-full h-full rounded-2xl overflow-hidden bg-neutral-100 dark:bg-neutral-900">
+        <div className="w-full h-full bg-neutral-100 dark:bg-neutral-900">
             <iframe
                 src={embedUrl}
                 title={title}
@@ -30,19 +27,18 @@ const MapEmbed: React.FC<MapEmbedProps> = ({
                 allowFullScreen={true}
                 loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"
-                // The filter grayscale makes it blend into the dark theme better until interaction
-                className="w-full h-full opacity-80 group-hover:opacity-100 grayscale group-hover:grayscale-0 transition-all duration-700 ease-in-out"
+                className="w-full h-full opacity-80 group-hover:opacity-100 grayscale hover:grayscale-0 transition-all duration-700 ease-in-out"
             />
         </div>
 
         {/* Floating Label */}
-        <div className="absolute top-4 left-4 z-20 px-3 py-1 bg-white/90 dark:bg-black/90 backdrop-blur-md rounded-full border border-neutral-200 dark:border-white/10 shadow-sm pointer-events-none">
+        <div className="absolute top-4 left-4 z-20 px-4 py-2 bg-white dark:bg-[#050505] border border-neutral-200 dark:border-white/10 shadow-sm pointer-events-none rounded-[4px]">
             <div className="flex items-center gap-2">
-                <span className="relative flex h-2 w-2">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
-                  <span className="relative inline-flex rounded-full h-2 w-2 bg-blue-500"></span>
+                <span className="relative flex h-1.5 w-1.5">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#005596] opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-[#005596]"></span>
                 </span>
-                <span className="text-[10px] font-contact-tech uppercase tracking-widest font-bold text-neutral-900 dark:text-white">
+                <span className="text-[10px] font-contact-tech uppercase tracking-[0.2em] font-semibold text-neutral-900 dark:text-white">
                     RVCE Campus
                 </span>
             </div>

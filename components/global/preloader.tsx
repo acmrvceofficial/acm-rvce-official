@@ -5,8 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 
 // --- Configuration ---
 const images = [
-  "/home/img0.jpg",
-  "/home/img6jpg",
+  "/home/img6.jpg",
   "/team/Actual_CT/2024_CT/Aryan_C.jpg",
   "/home/img2.jpg",
   "/home/img3.jpg",
