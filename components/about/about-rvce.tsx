@@ -70,7 +70,7 @@ export default function AboutRVCE() {
             <div className="hidden sm:flex gap-3">
               {[
                 { icon: Globe, link: "https://www.rvce.edu.in/" },
-                { icon: MapPin, link: "https://maps.app.goo.gl/rvce" }    
+                { icon: MapPin, link: "https://maps.app.goo.gl/8KQBrSzCvofJTyN48" }    
               ].map((item, index) => {
                 const Icon = item.icon;
                 return (
