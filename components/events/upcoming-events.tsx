@@ -54,12 +54,12 @@ function formatDate(dateString?: string) {
 }
 
 function getDay(dateString?: string) {
-    if (!dateString) return "00";
+    if (!dateString) return "??";
     return new Date(dateString).getDate().toString().padStart(2, '0');
 }
 
 function getMonth(dateString?: string) {
-    if (!dateString) return "XXX";
+    if (!dateString) return "TBA";
     return new Date(dateString).toLocaleDateString("en-US", { month: "short" }).toUpperCase();
 }
 
@@ -255,10 +255,15 @@ export const UpcomingEvents = ({ events }: { events: Event[] }) => {
   const [selectedEvent, setSelectedEvent] = useState<Event | null>(null);
 
   // Separate logic
-  // 1. Sort by date (Assuming ISO string dates)
-  const sortedEvents = [...events].sort((a, b) => 
-    new Date(a.date || "").getTime() - new Date(b.date || "").getTime()
-  );
+  // 1. Sort by date (Assuming ISO string dates), handling TBA (empty date)
+  const sortedEvents = [...events].sort((a, b) => {
+    const timeA = new Date(a.date || "").getTime();
+    const timeB = new Date(b.date || "").getTime();
+    if (isNaN(timeA) && isNaN(timeB)) return 0;
+    if (isNaN(timeA)) return 1; // TBA goes last
+    if (isNaN(timeB)) return -1;
+    return timeA - timeB;
+  });
 
   // 2. Split
   const featuredEvent = sortedEvents[0];
@@ -299,36 +304,57 @@ export const UpcomingEvents = ({ events }: { events: Event[] }) => {
                 />
             </div>
 
-            {/* Right: Upcoming List (Takes 5 cols) */}
+            {/* Right: Flagship Event (Takes 5 cols) */}
             <div className="lg:col-span-5 flex flex-col h-full">
-                <div className="bg-neutral-50 dark:bg-[#0A0A0A] rounded-3xl border border-neutral-200 dark:border-white/5 p-6 h-full">
-                    <h3 className="text-lg font-bold text-neutral-900 dark:text-white mb-6 flex items-center gap-2">
-                        <Calendar className="w-5 h-5 text-neutral-400" />
-                        Up Next
-                    </h3>
-                    
-                    <div className="flex flex-col gap-2 overflow-y-auto max-h-[400px] pr-2">
-                        {upcomingEvents.length > 0 ? (
-                            upcomingEvents.map((event) => (
-                                <UpcomingEventRow 
-                                    key={event._id} 
-                                    event={event} 
-                                    onClick={() => setSelectedEvent(event)} 
-                                />
-                            ))
-                        ) : (
-                            <div className="text-center py-12 text-neutral-500">
-                                No other upcoming events scheduled.
-                            </div>
-                        )}
-                    </div>
+                {upcomingEvents.length > 0 && upcomingEvents[0] && (
+                    <div 
+                        className="group relative w-full h-[500px] rounded-3xl overflow-hidden cursor-pointer border border-neutral-200 dark:border-white/10"
+                        onClick={() => setSelectedEvent(upcomingEvents[0])}
+                    >
+                        {/* Background Image */}
+                        <div className="absolute inset-0">
+                            <img 
+                                src={upcomingEvents[0].imageUrl} 
+                                alt={upcomingEvents[0].title} 
+                                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                            />
+                            <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/40 to-transparent" />
+                        </div>
 
-                    <div className="mt-6 pt-4 border-t border-neutral-200 dark:border-white/5 md:hidden">
-                        <a href="/events" className="flex items-center justify-center gap-2 w-full py-3 rounded-xl bg-white dark:bg-white/5 border border-neutral-200 dark:border-white/10 text-sm font-bold text-neutral-900 dark:text-white">
-                            View Full Calendar
-                        </a>
+                        {/* Badges */}
+                        <div className="absolute top-6 left-6 flex gap-3">
+                            <span className="px-3 py-1 rounded-full bg-indigo-600/90 backdrop-blur-md border border-white/10 text-xs font-bold text-white uppercase tracking-wider">
+                                {upcomingEvents[0].category || "Flagship"}
+                            </span>
+                        </div>
+
+                        {/* Content */}
+                        <div className="absolute bottom-0 left-0 w-full p-8 md:p-10">
+                            <h3 className="text-3xl lg:text-4xl font-bold text-white leading-tight font-primary mb-3">
+                                {upcomingEvents[0].title}
+                            </h3>
+                            
+                            <p className="text-neutral-300 text-sm md:text-base line-clamp-3 mb-6">
+                                {upcomingEvents[0].description}
+                            </p>
+
+                            <div className="flex items-center justify-between pt-6 border-t border-white/20">
+                                <div className="flex flex-col gap-1">
+                                    <span className="text-white/60 text-xs font-tech font-bold uppercase tracking-widest">
+                                        Status
+                                    </span>
+                                    <span className="text-emerald-400 text-sm font-bold tracking-wide uppercase flex items-center gap-2">
+                                        <div className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                                        Dates TBA
+                                    </span>
+                                </div>
+                                <div className="h-12 w-12 rounded-full bg-white text-black flex items-center justify-center group-hover:scale-110 transition-transform shadow-lg">
+                                    <ArrowUpRight className="w-6 h-6" />
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                </div>
+                )}
             </div>
 
         </div>

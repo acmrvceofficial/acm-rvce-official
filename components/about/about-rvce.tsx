@@ -99,8 +99,9 @@ export default function AboutRVCE() {
             customVariants={scaleVariants}
             className="relative group"
           >
+            {/* Desktop View: Custom SVG Shape */}
             <svg
-              className="w-full drop-shadow-2xl dark:drop-shadow-[0_20px_50px_rgba(0,0,0,0.5)]"
+              className="w-full hidden md:block drop-shadow-2xl dark:drop-shadow-[0_20px_50px_rgba(0,0,0,0.5)]"
               width={"100%"}
               height={"100%"}
               viewBox="0 0 100 60"
@@ -123,6 +124,16 @@ export default function AboutRVCE() {
                 xlinkHref={rvceSectionConfig.image.src}
               ></image>
             </svg>
+
+            {/* Mobile View: Standard image with normal shaped border */}
+            <div className="block md:hidden relative w-full h-[60vh] min-h-[300px] max-h-[500px] rounded-3xl overflow-hidden drop-shadow-2xl dark:drop-shadow-[0_20px_50px_rgba(0,0,0,0.5)]">
+              <Image
+                src={rvceSectionConfig.image.src}
+                alt={rvceSectionConfig.image.alt || "RVCE Image"}
+                fill
+                className="object-cover object-center"
+              />
+            </div>
           </TimelineContent>
 
           {/* Stats mapped from RVCE config */}
