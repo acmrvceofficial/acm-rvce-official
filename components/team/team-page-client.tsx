@@ -7,6 +7,11 @@ import TeamHeader from '@/components/team/team-header';
 import TeamYearSelector from '@/components/team/team-selector';
 import TeamCategoryTabs from '@/components/team/tabs';
 import TeamMembersGrid from '@/components/team/team-grid';
+import FoundingTeam from '@/components/team/founding-team';
+import FoundersBanner from '@/components/team/founders-banner';
+import { teamData as hardcodedTeamData } from '@/lib/config/teamData';
+
+const FOUNDING_YEAR = "2024";
 
 interface TeamPageClientProps {
   teamMembers: TeamMember[];
@@ -21,9 +26,6 @@ export const TeamPageClient: React.FC<TeamPageClientProps> = ({ teamMembers, yea
   const availableYears = React.useMemo(() => (years.length > 0 ? years : ["2025"]), [years]);
   
   const teamData: TeamData = React.useMemo(() => {
-    console.log('TeamPageClient - teamMembers:', teamMembers);
-    console.log('TeamPageClient - availableYears:', availableYears);
-    
     const data: TeamData = {};
     
     availableYears.forEach(year => {
@@ -34,31 +36,22 @@ export const TeamPageClient: React.FC<TeamPageClientProps> = ({ teamMembers, yea
       data[selectedYear] = { core: [], junior: [] };
     }
     
-    // Safely iterate over teamMembers with null check
     if (teamMembers && Array.isArray(teamMembers)) {
       teamMembers.forEach(member => {
-        console.log('Processing member:', member);
         const year = member.year || selectedYear;
         const category = member.category || 'core';
-        
-        console.log('Year:', year, 'Category:', category);
         
         if (!data[year]) {
           data[year] = { core: [], junior: [] };
         }
         
-        // Ensure the category exists and is valid
         if (category === 'core' || category === 'junior') {
           data[year][category].push(member);
         } else {
-          // Default to core if category is invalid
-          console.log('Invalid category, defaulting to core:', category);
           data[year].core.push(member);
         }
       });
     }
-    
-    console.log('Final data structure:', data);
     
     Object.keys(data).forEach(year => {
       data[year].core.sort((a, b) => {
@@ -79,6 +72,33 @@ export const TeamPageClient: React.FC<TeamPageClientProps> = ({ teamMembers, yea
     return data;
   }, [teamMembers, selectedYear, availableYears]);
 
+  // Get founding core members (from Sanity or hardcoded fallback)
+  const foundingCoreMembers: TeamMember[] = React.useMemo(() => {
+    // Try Sanity data first
+    if (teamMembers && Array.isArray(teamMembers)) {
+      const sanityFounders = teamMembers
+        .filter(m => m.year === FOUNDING_YEAR && (m.category === 'core' || !m.category))
+        .sort((a, b) => {
+          if (a.order !== undefined && b.order !== undefined) return a.order - b.order;
+          return a.name.localeCompare(b.name);
+        });
+      if (sanityFounders.length > 0) return sanityFounders;
+    }
+
+    // Fallback to hardcoded data
+    const fallback = hardcodedTeamData[FOUNDING_YEAR];
+    if (fallback?.core) {
+      return fallback.core.map(m => ({
+        ...m,
+        image: m.image.replace(/\\\\/g, '/'),
+      }));
+    }
+    return [];
+  }, [teamMembers]);
+
+  const isFoundingCoreView = selectedYear === FOUNDING_YEAR && activeTab === "core";
+  const showFoundingSection = !isFoundingCoreView;
+
   return (
     <div className="min-h-screen py-12 pt-20 px-4 sm:px-6 lg:px-8 bg-background text-foreground">
       <div className="max-w-7xl mx-auto">
@@ -92,11 +112,20 @@ export const TeamPageClient: React.FC<TeamPageClientProps> = ({ teamMembers, yea
           activeTab={activeTab} 
           setActiveTab={setActiveTab} 
         />
+
+        {/* Show founders banner when viewing 2024 core team */}
+        {isFoundingCoreView && <FoundersBanner />}
+
         <TeamMembersGrid 
           teamData={teamData} 
           selectedYear={selectedYear} 
           activeTab={activeTab} 
         />
+
+        {/* Show founding team section at bottom for all other views */}
+        {showFoundingSection && (
+          <FoundingTeam members={foundingCoreMembers} />
+        )}
       </div>
     </div>
   );
