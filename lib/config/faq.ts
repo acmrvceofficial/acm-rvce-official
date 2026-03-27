@@ -20,13 +20,13 @@ export const faqConfig: FAQConfig = {
     {
       question: "How can I join ACM RVCE?",
       answer:
-        "You can join us by attending our orientation sessions, signing up for membership during registration drives, or contacting any of our team members.",
+        "Visit our membership page at /join to learn about the process, benefits, and how to get started with both the RVCE chapter and ACM global membership.",
       category: "Membership",
     },
     {
       question: "How do I become a member?",
       answer:
-        "To become a member, simply fill out the membership form available on our website. Once submitted, our team will review your application and get back to you with further details.",
+        "Head over to our Join page (/join) for the complete step-by-step guide. You'll need an ACM Global Student Membership ($19/year) and then register with our RVCE chapter.",
       category: "Membership",
     },
     {
