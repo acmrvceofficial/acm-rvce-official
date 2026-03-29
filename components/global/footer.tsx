@@ -35,7 +35,7 @@ const IconComponent = ({
 };
 
 const Footer = ({ className, config }: FooterProps) => {
-  const developers = ["Vishal", "Taha", "Tharun", "Avinash"];
+  const developers = ["Vishal", "Taha", "Tharun", "Anirudh", "Avinash"];
 
   return (
     <footer
